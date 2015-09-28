@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         id="WebApp_ID" version="2.5">
+
+    <context-param>
+        <param-name>debug</param-name>
+        <param-value>false</param-value>
+    </context-param>
+    <context-param>
+        <param-name>encoding</param-name>
+        <param-value>UTF-8</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contentType</param-name>
+        <param-value>text/html;charset=UTF-8</param-value>
+    </context-param>
+    <context-param>
+        <description>那些ctrl包中的类被用作html请求的处理类</description>
+        <param-name>controller_package</param-name>
+        <param-value>com.hzc.ctrl</param-value>
+    </context-param>
+
+    <mime-mapping>
+        <extension>air</extension>
+        <mime-type>application/air</mime-type>
+    </mime-mapping>
+
+
+    <!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+    <!-- |||||||||||||||||||||||||||||||||||||||||||||| 上面是简易 SSH 框架的配置 ||||||||||||||||||||||||||||||||||||||||||||| -->
+    <!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+    <!-- 初始化 运行时 mybatis 的数据源 动态切换 的监听 -->
+    <listener>
+        <listener-class>com.hzc.listener.InitSshListener</listener-class>
+    </listener>
+    <!-- 控制层 路由器 -->
+    <servlet>
+        <servlet-name>RouteServlet</servlet-name>
+        <servlet-class>com.hzc.framework.ssh.controller.RouteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RouteServlet</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+    <!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+    <!-- |||||||||||||||||||||||||||||||||||||||||||||| 上面是简易 SSH 框架的配置 ||||||||||||||||||||||||||||||||||||||||||||| -->
+    <!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+
+    <!-- 编码处理 -->
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>com.hzc.framework.ssh.filter.SetCharacterEncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <description>手机权限过滤</description>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.hzc.filter.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <session-config>
+        <session-timeout>99999999</session-timeout>
+    </session-config>
+
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+</web-app>
